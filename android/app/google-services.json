@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "660568940887",
+    "project_id": "aluventures-73eae",
+    "storage_bucket": "aluventures-73eae.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:660568940887:android:76be292eb3e0b6d0889e12",
+        "android_client_info": {
+          "package_name": "com.example.venture_connect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtKigPZXoUe5vvCvMFbom2vimk7K75aik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
