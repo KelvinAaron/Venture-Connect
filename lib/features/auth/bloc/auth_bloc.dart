@@ -1,0 +1,94 @@
+import 'dart:async';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../data/auth_repository.dart';
+import 'auth_event.dart';
+import 'auth_state.dart';
+
+/// Single source of truth for auth state. Login/sign-up handlers only call
+/// the repository and surface failures; success is always driven by the
+/// authStateChanges subscription below, so there is never a race between
+/// two different code paths both deciding when the user is "authenticated".
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  AuthBloc(this._authRepository) : super(const AuthInitial()) {
+    on<AuthUserChanged>(_onUserChanged);
+    on<AuthLoginRequested>(_onLoginRequested);
+    on<AuthSignUpRequested>(_onSignUpRequested);
+    on<AuthLogoutRequested>(_onLogoutRequested);
+
+    _authSubscription = _authRepository.authStateChanges.listen(
+      (user) => add(AuthUserChanged(user)),
+    );
+  }
+
+  final AuthRepository _authRepository;
+  late final StreamSubscription<User?> _authSubscription;
+
+  Future<void> _onUserChanged(AuthUserChanged event, Emitter<AuthState> emit) async {
+    final firebaseUser = event.firebaseUser;
+    if (firebaseUser == null) {
+      emit(const AuthUnauthenticated());
+      return;
+    }
+    emit(const AuthLoading());
+    final profile = await _authRepository.getUserProfile(firebaseUser.uid);
+    if (profile == null) {
+      emit(const AuthFailure('Could not load your profile. Please try logging in again.'));
+      await _authRepository.logout();
+    } else {
+      emit(AuthAuthenticated(profile));
+    }
+  }
+
+  Future<void> _onLoginRequested(AuthLoginRequested event, Emitter<AuthState> emit) async {
+    try {
+      await _authRepository.login(email: event.email, password: event.password);
+    } on FirebaseAuthException catch (e) {
+      emit(AuthFailure(_friendlyMessage(e)));
+    } catch (_) {
+      emit(const AuthFailure('Something went wrong. Please try again.'));
+    }
+  }
+
+  Future<void> _onSignUpRequested(AuthSignUpRequested event, Emitter<AuthState> emit) async {
+    try {
+      await _authRepository.signUp(
+        name: event.name,
+        email: event.email,
+        password: event.password,
+        role: event.role,
+      );
+    } on FirebaseAuthException catch (e) {
+      emit(AuthFailure(_friendlyMessage(e)));
+    } catch (_) {
+      emit(const AuthFailure('Something went wrong. Please try again.'));
+    }
+  }
+
+  Future<void> _onLogoutRequested(AuthLogoutRequested event, Emitter<AuthState> emit) async {
+    await _authRepository.logout();
+  }
+
+  String _friendlyMessage(FirebaseAuthException e) {
+    switch (e.code) {
+      case 'user-not-found':
+      case 'wrong-password':
+      case 'invalid-credential':
+        return 'Incorrect email or password.';
+      case 'email-already-in-use':
+        return 'An account already exists for that email.';
+      case 'weak-password':
+        return 'Choose a stronger password (at least 6 characters).';
+      case 'invalid-email':
+        return 'That email address looks invalid.';
+      default:
+        return e.message ?? 'Authentication failed.';
+    }
+  }
+
+  @override
+  Future<void> close() {
+    _authSubscription.cancel();
+    return super.close();
+  }
+}
