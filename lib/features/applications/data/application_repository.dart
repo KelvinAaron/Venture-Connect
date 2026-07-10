@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../notifications/data/notification_repository.dart';
 import '../models/application.dart';
 import '../models/application_status.dart';
 
@@ -62,10 +63,25 @@ class ApplicationRepository {
     });
   }
 
-  Future<void> updateStatus(String applicationId, ApplicationStatus status) {
-    return _applications.doc(applicationId).update({
+  /// Takes the full [application] (rather than just an id) so a
+  /// notification for the student can be queued in the same batch as the
+  /// status update, without an extra read to look up who to notify.
+  Future<void> updateStatus(Application application, ApplicationStatus status) async {
+    final batch = _firestore.batch();
+    batch.update(_applications.doc(application.id), {
       'status': status.name,
       'updatedAt': FieldValue.serverTimestamp(),
     });
+    NotificationRepository.queue(
+      batch,
+      _firestore,
+      uid: application.studentUid,
+      title: 'Application update',
+      body:
+          '${application.startupName} moved your application for "${application.opportunityTitle}" to ${status.label}.',
+      type: 'applicationStatus',
+      relatedId: application.opportunityId,
+    );
+    await batch.commit();
   }
 }

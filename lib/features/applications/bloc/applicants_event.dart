@@ -30,9 +30,9 @@ class ApplicantsFailed extends ApplicantsEvent {
 }
 
 class ApplicantsStatusChanged extends ApplicantsEvent {
-  final String applicationId;
+  final Application application;
   final ApplicationStatus status;
-  const ApplicantsStatusChanged({required this.applicationId, required this.status});
+  const ApplicantsStatusChanged({required this.application, required this.status});
   @override
-  List<Object?> get props => [applicationId, status];
+  List<Object?> get props => [application, status];
 }

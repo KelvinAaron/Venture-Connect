@@ -12,6 +12,7 @@ import '../../features/opportunities/bloc/opportunity_feed_event.dart';
 import '../../features/opportunities/bloc/opportunity_feed_state.dart';
 import '../../features/opportunities/data/opportunity_repository.dart';
 import '../../features/opportunities/models/opportunity.dart';
+import '../bookmarks/bookmark_button.dart';
 import 'opportunity_detail_screen.dart';
 
 /// Body-only widget embedded by StudentHomeScreen's "Discover" tab.
@@ -155,16 +156,23 @@ class _OpportunityCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(child: Text(opportunity.title, style: AppTextStyles.subtitle)),
+                  BookmarkButton(opportunityId: opportunity.id),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(opportunity.startupName, style: AppTextStyles.bodyMuted),
+                  ),
                   Text(
                     DateFormatter.relative(opportunity.createdAt),
                     style: AppTextStyles.caption,
                   ),
                 ],
               ),
-              const SizedBox(height: 2),
-              Text(opportunity.startupName, style: AppTextStyles.bodyMuted),
               const SizedBox(height: 10),
               Wrap(
                 spacing: 8,

@@ -47,16 +47,16 @@ class ApplicantsBloc extends Bloc<ApplicantsEvent, ApplicantsState> {
     if (current is! ApplicantsLoaded) return;
     emit(ApplicantsLoaded(
       applicants: current.applicants,
-      processingIds: {...current.processingIds, event.applicationId},
+      processingIds: {...current.processingIds, event.application.id},
     ));
     try {
-      await _repository.updateStatus(event.applicationId, event.status);
+      await _repository.updateStatus(event.application, event.status);
     } catch (_) {
       final latest = state;
       if (latest is ApplicantsLoaded) {
         emit(ApplicantsLoaded(
           applicants: latest.applicants,
-          processingIds: {...latest.processingIds}..remove(event.applicationId),
+          processingIds: {...latest.processingIds}..remove(event.application.id),
         ));
       }
     }

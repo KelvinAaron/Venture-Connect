@@ -53,7 +53,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       return;
     }
 
-    emit(const AuthFailure('Could not load your profile. Please try logging in again.'));
+    emit(AuthFailure('Could not load your profile. Please try logging in again.'));
     await _authRepository.logout();
   }
 
@@ -63,7 +63,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } on FirebaseAuthException catch (e) {
       emit(AuthFailure(_friendlyMessage(e)));
     } catch (_) {
-      emit(const AuthFailure('Something went wrong. Please try again.'));
+      emit(AuthFailure('Something went wrong. Please try again.'));
     }
   }
 
@@ -78,7 +78,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } on FirebaseAuthException catch (e) {
       emit(AuthFailure(_friendlyMessage(e)));
     } catch (_) {
-      emit(const AuthFailure('Something went wrong. Please try again.'));
+      emit(AuthFailure('Something went wrong. Please try again.'));
     }
   }
 
@@ -96,7 +96,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } on FirebaseAuthException catch (e) {
       emit(AuthFailure(_friendlyMessage(e)));
     } catch (_) {
-      emit(const AuthFailure('Something went wrong. Please try again.'));
+      emit(AuthFailure('Something went wrong. Please try again.'));
     }
   }
 

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../notifications/data/notification_repository.dart';
 import '../models/startup.dart';
 import '../models/verification_status.dart';
 
@@ -60,10 +61,39 @@ class StartupRepository {
         );
   }
 
-  Future<void> decide(String startupId, {required bool approve}) {
-    return _startups.doc(startupId).update({
+  Future<void> decide(String startupId, {required bool approve}) async {
+    final batch = _firestore.batch();
+    batch.update(_startups.doc(startupId), {
       'status': (approve ? VerificationStatus.verified : VerificationStatus.rejected).name,
       'decidedAt': FieldValue.serverTimestamp(),
+    });
+    NotificationRepository.queue(
+      batch,
+      _firestore,
+      uid: startupId, // doc id == ownerUid
+      title: approve ? 'Startup verified' : 'Startup not approved',
+      body: approve
+          ? 'Your startup is verified — you can now post opportunities.'
+          : 'Your startup profile was not approved. Contact the ALU admin team for details.',
+      type: 'startupVerification',
+    );
+    await batch.commit();
+  }
+
+  /// Edits to a startup's descriptive fields don't reset verification —
+  /// only the initial admin decision matters for posting access.
+  Future<void> updateProfile({
+    required String startupId,
+    required String name,
+    required String description,
+    required String category,
+    required String website,
+  }) {
+    return _startups.doc(startupId).update({
+      'name': name,
+      'description': description,
+      'category': category,
+      'website': website,
     });
   }
 }

@@ -63,9 +63,17 @@ class AuthNeedsRoleSelection extends AuthState {
 /// A login/sign-up attempt failed, or a signed-in user's profile could not
 /// be loaded. Screens surface [message]; routing treats this the same as
 /// AuthUnauthenticated (stay on/return to the login screen).
+///
+/// [_at] exists only so two consecutive failures with the same message are
+/// never value-equal: Bloc's emit() silently no-ops when the new state ==
+/// the current state, so without this a second identical failure (e.g.
+/// wrong password twice in a row) would never actually emit — leaving
+/// screens listening for it (to reset a loading spinner, for example)
+/// stuck waiting for a state change that never happens.
 class AuthFailure extends AuthState {
   final String message;
-  const AuthFailure(this.message);
+  final DateTime _at;
+  AuthFailure(this.message) : _at = DateTime.now();
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [message, _at];
 }

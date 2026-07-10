@@ -13,6 +13,7 @@ import '../../features/auth/bloc/auth_bloc.dart';
 import '../../features/auth/bloc/auth_state.dart';
 import '../../features/auth/models/user_role.dart';
 import '../../features/opportunities/models/opportunity.dart';
+import '../bookmarks/bookmark_button.dart';
 
 class OpportunityDetailScreen extends StatelessWidget {
   final Opportunity opportunity;
@@ -24,7 +25,12 @@ class OpportunityDetailScreen extends StatelessWidget {
     final isStudent = authState is AuthAuthenticated && authState.user.role == UserRole.student;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Opportunity details')),
+      appBar: AppBar(
+        title: const Text('Opportunity details'),
+        actions: [
+          if (isStudent) BookmarkButton(opportunityId: opportunity.id),
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),

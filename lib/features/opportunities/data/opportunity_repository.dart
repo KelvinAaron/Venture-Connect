@@ -31,6 +31,16 @@ class OpportunityRepository {
     });
   }
 
+  /// Every posting regardless of owner or status — used to resolve a
+  /// student's bookmarked opportunity ids into full Opportunity data
+  /// (a bookmarked posting may have since been closed, so this
+  /// deliberately isn't limited to openOpportunitiesStream).
+  Stream<List<Opportunity>> allOpportunitiesStream() {
+    return _opportunities.snapshots().map(
+          (snap) => snap.docs.map((d) => Opportunity.fromMap(d.id, d.data())).toList(),
+        );
+  }
+
   Future<void> createOpportunity(Opportunity opportunity) {
     return _opportunities.add(opportunity.toCreateMap());
   }

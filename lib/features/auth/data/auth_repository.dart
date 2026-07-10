@@ -82,4 +82,20 @@ class AuthRepository {
     }
     return null;
   }
+
+  /// Live version of [getUserProfile], for the profile screen.
+  Stream<AppUser?> userProfileStream(String uid) {
+    return _users.doc(uid).snapshots().map(
+          (doc) => doc.exists ? AppUser.fromMap(uid, doc.data()!) : null,
+        );
+  }
+
+  Future<void> updateProfile(AppUser user) {
+    return _users.doc(user.uid).update({
+      'name': user.name,
+      'skills': user.skills,
+      'interests': user.interests,
+      'bio': user.bio,
+    });
+  }
 }

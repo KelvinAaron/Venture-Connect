@@ -118,7 +118,7 @@ class _ApplicantCard extends StatelessWidget {
                 onChanged: (status) {
                   if (status == null || status == application.status) return;
                   context.read<ApplicantsBloc>().add(
-                        ApplicantsStatusChanged(applicationId: application.id, status: status),
+                        ApplicantsStatusChanged(application: application, status: status),
                       );
                 },
               ),
