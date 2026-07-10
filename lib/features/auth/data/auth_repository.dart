@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../models/app_user.dart';
 import '../models/user_role.dart';
 
@@ -25,16 +26,50 @@ class AuthRepository {
       email: email.trim(),
       password: password,
     );
-    final uid = credential.user!.uid;
-    final user = AppUser(uid: uid, name: name.trim(), email: email.trim(), role: role);
-    await _users.doc(uid).set(user.toMap());
+    await createProfile(uid: credential.user!.uid, name: name.trim(), email: email.trim(), role: role);
   }
 
   Future<void> login({required String email, required String password}) async {
     await _firebaseAuth.signInWithEmailAndPassword(email: email.trim(), password: password);
   }
 
-  Future<void> logout() => _firebaseAuth.signOut();
+  /// Starts an interactive Google sign-in and exchanges the resulting ID
+  /// token for a Firebase credential. If this is the account's first sign-in
+  /// there won't be a Firestore profile yet — AuthBloc detects that case and
+  /// routes to role selection instead of treating it as an error.
+  ///
+  /// Assumes [GoogleSignIn.instance] was already initialized once at app
+  /// startup (see main.dart) — initialize() must only ever be called once
+  /// per app run.
+  Future<void> signInWithGoogle() async {
+    final account = await GoogleSignIn.instance.authenticate();
+    final idToken = account.authentication.idToken;
+    if (idToken == null) {
+      throw FirebaseAuthException(
+        code: 'missing-id-token',
+        message: "Google didn't return an ID token. Please try again.",
+      );
+    }
+    final credential = GoogleAuthProvider.credential(idToken: idToken);
+    await _firebaseAuth.signInWithCredential(credential);
+  }
+
+  Future<void> logout() async {
+    await _firebaseAuth.signOut();
+  }
+
+  /// Writes the Firestore `users/{uid}` profile doc. Used both by [signUp]
+  /// (email/password) and by the role-selection flow that follows a
+  /// first-time Google sign-in.
+  Future<void> createProfile({
+    required String uid,
+    required String name,
+    required String email,
+    required UserRole role,
+  }) async {
+    final user = AppUser(uid: uid, name: name, email: email, role: role);
+    await _users.doc(uid).set(user.toMap());
+  }
 
   /// Polls briefly for the Firestore profile doc. It's written right after
   /// the Firebase Auth account is created, so it can lag the

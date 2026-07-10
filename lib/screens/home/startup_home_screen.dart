@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../core/widgets/empty_state.dart';
 import '../../features/auth/bloc/auth_bloc.dart';
 import '../../features/auth/bloc/auth_event.dart';
 import '../../features/startup_profile/models/startup.dart';
+import '../opportunities/my_opportunities_screen.dart';
+import '../opportunities/post_opportunity_screen.dart';
 
-/// Rendered by StartupGate once the signed-in startup's profile is
-/// verified. Placeholder body until Step 4 adds opportunity posting here.
+/// Rendered by StartupGate once the signed-in startup's profile is verified.
 class StartupHomeScreen extends StatelessWidget {
   final Startup startup;
   const StartupHomeScreen({super.key, required this.startup});
@@ -24,10 +24,12 @@ class StartupHomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: const EmptyState(
-        icon: Icons.post_add_outlined,
-        title: 'Posting opportunities is coming soon',
-        message: "You're verified — opportunity posting lands in the next build step.",
+      body: MyOpportunitiesView(startup: startup),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => PostOpportunityScreen(startup: startup)),
+        ),
+        child: const Icon(Icons.add),
       ),
     );
   }

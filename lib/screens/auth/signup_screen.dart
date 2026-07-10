@@ -5,6 +5,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/validators.dart';
 import '../../core/widgets/primary_button.dart';
+import '../../core/widgets/role_card.dart';
 import '../../features/auth/bloc/auth_bloc.dart';
 import '../../features/auth/bloc/auth_event.dart';
 import '../../features/auth/bloc/auth_state.dart';
@@ -78,7 +79,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   Row(
                     children: [
                       Expanded(
-                        child: _RoleCard(
+                        child: RoleCard(
                           label: 'Student',
                           description: 'Looking for internships',
                           icon: Icons.school_outlined,
@@ -88,7 +89,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       const SizedBox(width: 12),
                       Expanded(
-                        child: _RoleCard(
+                        child: RoleCard(
                           label: 'Startup',
                           description: 'Posting opportunities',
                           icon: Icons.rocket_launch_outlined,
@@ -130,6 +131,27 @@ class _SignupScreenState extends State<SignupScreen> {
                     isLoading: _isSubmitting,
                     onPressed: _submit,
                   ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      const Expanded(child: Divider(color: AppColors.divider)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Text('or', style: AppTextStyles.caption),
+                      ),
+                      const Expanded(child: Divider(color: AppColors.divider)),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: () =>
+                          context.read<AuthBloc>().add(const AuthGoogleSignInRequested()),
+                      icon: const Icon(Icons.g_mobiledata, size: 28),
+                      label: const Text('Continue with Google'),
+                    ),
+                  ),
                   const SizedBox(height: 16),
                   Center(
                     child: TextButton(
@@ -141,52 +163,6 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _RoleCard extends StatelessWidget {
-  final String label;
-  final String description;
-  final IconData icon;
-  final bool selected;
-  final VoidCallback onTap;
-
-  const _RoleCard({
-    required this.label,
-    required this.description,
-    required this.icon,
-    required this.selected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: selected ? AppColors.primaryLight : AppColors.surface,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: selected ? AppColors.primary : AppColors.divider,
-            width: selected ? 1.5 : 1,
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(icon, color: selected ? AppColors.primary : AppColors.textSecondary),
-            const SizedBox(height: 10),
-            Text(label, style: AppTextStyles.subtitle),
-            const SizedBox(height: 2),
-            Text(description, style: AppTextStyles.caption),
-          ],
         ),
       ),
     );

@@ -3,17 +3,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../features/auth/bloc/auth_bloc.dart';
 import '../../features/auth/bloc/auth_event.dart';
 import '../startup_profile/admin_verification_screen.dart';
+import '../user_management/admin_users_screen.dart';
 
-/// Route target for `/admin`. The admin's only job in this app is to
-/// verify startup sign-ups, so this route is that queue directly.
-class AdminHomeScreen extends StatelessWidget {
+/// Route target for `/admin`. Two sections: the pending-only verification
+/// queue, and a full user directory where startup status can also be
+/// changed. Both stay mounted via IndexedStack so switching tabs doesn't
+/// re-subscribe their Firestore streams.
+class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({super.key});
+
+  @override
+  State<AdminHomeScreen> createState() => _AdminHomeScreenState();
+}
+
+class _AdminHomeScreenState extends State<AdminHomeScreen> {
+  int _index = 0;
+
+  static const _titles = ['Startup verifications', 'User management'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Startup verifications'),
+        title: Text(_titles[_index]),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
@@ -22,7 +34,18 @@ class AdminHomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: const AdminVerificationView(),
+      body: IndexedStack(
+        index: _index,
+        children: const [AdminVerificationView(), AdminUsersView()],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _index,
+        onTap: (index) => setState(() => _index = index),
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.verified_outlined), label: 'Verifications'),
+          BottomNavigationBarItem(icon: Icon(Icons.people_outline), label: 'Users'),
+        ],
+      ),
     );
   }
 }

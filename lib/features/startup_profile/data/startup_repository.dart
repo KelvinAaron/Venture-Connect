@@ -52,6 +52,14 @@ class StartupRepository {
     });
   }
 
+  /// All startups regardless of status — used by the admin user-management
+  /// view to join startup verification info onto every startup-role user.
+  Stream<List<Startup>> allStartupsStream() {
+    return _startups.snapshots().map(
+          (snap) => snap.docs.map((d) => Startup.fromMap(d.id, d.data())).toList(),
+        );
+  }
+
   Future<void> decide(String startupId, {required bool approve}) {
     return _startups.doc(startupId).update({
       'status': (approve ? VerificationStatus.verified : VerificationStatus.rejected).name,

@@ -3,6 +3,7 @@ import '../../features/auth/bloc/auth_bloc.dart';
 import '../../features/auth/bloc/auth_state.dart';
 import '../../features/auth/models/user_role.dart';
 import '../../screens/auth/login_screen.dart';
+import '../../screens/auth/role_selection_screen.dart';
 import '../../screens/auth/signup_screen.dart';
 import '../../screens/home/admin_home_screen.dart';
 import '../../screens/home/student_home_screen.dart';
@@ -20,6 +21,10 @@ GoRouter buildAppRouter(AuthBloc authBloc) {
       GoRoute(path: AppRoutes.splash, builder: (context, state) => const SplashScreen()),
       GoRoute(path: AppRoutes.login, builder: (context, state) => const LoginScreen()),
       GoRoute(path: AppRoutes.signup, builder: (context, state) => const SignupScreen()),
+      GoRoute(
+        path: AppRoutes.roleSelection,
+        builder: (context, state) => const RoleSelectionScreen(),
+      ),
       GoRoute(
         path: AppRoutes.studentHome,
         builder: (context, state) => const StudentHomeScreen(),
@@ -47,6 +52,10 @@ String? _redirect(AuthBloc authBloc, GoRouterState state) {
 
   if (authState is AuthUnauthenticated || authState is AuthFailure) {
     return onAuthPages ? null : AppRoutes.login;
+  }
+
+  if (authState is AuthNeedsRoleSelection) {
+    return loc == AppRoutes.roleSelection ? null : AppRoutes.roleSelection;
   }
 
   if (authState is AuthAuthenticated) {

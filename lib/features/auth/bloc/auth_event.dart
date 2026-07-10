@@ -42,3 +42,16 @@ class AuthSignUpRequested extends AuthEvent {
 class AuthLogoutRequested extends AuthEvent {
   const AuthLogoutRequested();
 }
+
+class AuthGoogleSignInRequested extends AuthEvent {
+  const AuthGoogleSignInRequested();
+}
+
+/// Submits the role chosen on RoleSelectionScreen for a first-time Google
+/// sign-in, completing that account's Firestore profile.
+class AuthRoleSelectionSubmitted extends AuthEvent {
+  final UserRole role;
+  const AuthRoleSelectionSubmitted(this.role);
+  @override
+  List<Object?> get props => [role];
+}

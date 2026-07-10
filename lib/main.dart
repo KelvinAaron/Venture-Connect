@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'firebase_options.dart';
+import 'core/constants/google_sign_in_config.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/bloc/auth_bloc.dart';
@@ -14,6 +16,8 @@ Future<void> main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // Must be called exactly once, before any other GoogleSignIn.instance call.
+  await GoogleSignIn.instance.initialize(serverClientId: googleServerClientId);
   runApp(const VentureConnectApp());
 }
 

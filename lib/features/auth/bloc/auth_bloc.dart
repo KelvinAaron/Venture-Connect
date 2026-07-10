@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../data/auth_repository.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
@@ -14,6 +15,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthUserChanged>(_onUserChanged);
     on<AuthLoginRequested>(_onLoginRequested);
     on<AuthSignUpRequested>(_onSignUpRequested);
+    on<AuthGoogleSignInRequested>(_onGoogleSignInRequested);
+    on<AuthRoleSelectionSubmitted>(_onRoleSelectionSubmitted);
     on<AuthLogoutRequested>(_onLogoutRequested);
 
     _authSubscription = _authRepository.authStateChanges.listen(
@@ -32,12 +35,26 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
     emit(const AuthLoading());
     final profile = await _authRepository.getUserProfile(firebaseUser.uid);
-    if (profile == null) {
-      emit(const AuthFailure('Could not load your profile. Please try logging in again.'));
-      await _authRepository.logout();
-    } else {
+    if (profile != null) {
       emit(AuthAuthenticated(profile));
+      return;
     }
+
+    final isGoogleUser = firebaseUser.providerData.any((p) => p.providerId == 'google.com');
+    if (isGoogleUser) {
+      // First-time Google sign-in: no Firestore doc yet since Google skips
+      // our signup form's role picker. Route to role selection instead of
+      // treating this the same as a broken/orphaned account.
+      emit(AuthNeedsRoleSelection(
+        uid: firebaseUser.uid,
+        name: firebaseUser.displayName ?? '',
+        email: firebaseUser.email ?? '',
+      ));
+      return;
+    }
+
+    emit(const AuthFailure('Could not load your profile. Please try logging in again.'));
+    await _authRepository.logout();
   }
 
   Future<void> _onLoginRequested(AuthLoginRequested event, Emitter<AuthState> emit) async {
@@ -62,6 +79,49 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthFailure(_friendlyMessage(e)));
     } catch (_) {
       emit(const AuthFailure('Something went wrong. Please try again.'));
+    }
+  }
+
+  Future<void> _onGoogleSignInRequested(
+    AuthGoogleSignInRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      await _authRepository.signInWithGoogle();
+      // success -> authStateChanges listener drives the rest
+    } on GoogleSignInException catch (e) {
+      if (e.code != GoogleSignInExceptionCode.canceled) {
+        emit(AuthFailure(e.description ?? 'Google sign-in failed.'));
+      }
+    } on FirebaseAuthException catch (e) {
+      emit(AuthFailure(_friendlyMessage(e)));
+    } catch (_) {
+      emit(const AuthFailure('Something went wrong. Please try again.'));
+    }
+  }
+
+  Future<void> _onRoleSelectionSubmitted(
+    AuthRoleSelectionSubmitted event,
+    Emitter<AuthState> emit,
+  ) async {
+    final current = state;
+    if (current is! AuthNeedsRoleSelection) return;
+    emit(current.copyWith(isSubmitting: true, error: null));
+    try {
+      await _authRepository.createProfile(
+        uid: current.uid,
+        name: current.name,
+        email: current.email,
+        role: event.role,
+      );
+      final profile = await _authRepository.getUserProfile(current.uid);
+      if (profile != null) {
+        emit(AuthAuthenticated(profile));
+      } else {
+        emit(current.copyWith(isSubmitting: false, error: 'Could not finish setting up your account.'));
+      }
+    } catch (e) {
+      emit(current.copyWith(isSubmitting: false, error: e.toString()));
     }
   }
 

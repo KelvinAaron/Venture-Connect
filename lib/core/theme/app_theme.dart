@@ -64,7 +64,12 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
-          minimumSize: const Size.fromHeight(52),
+          // Bounded, not Size.fromHeight(52) (width: infinity) — that
+          // crashes any button placed in a Row (e.g. side-by-side actions)
+          // since a Row gives children unbounded width to size themselves.
+          // Widgets that want a full-width button (PrimaryButton) wrap
+          // themselves in a SizedBox(width: double.infinity) instead.
+          minimumSize: const Size(64, 52),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
           elevation: 0,
           textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
@@ -73,7 +78,7 @@ class AppTheme {
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.primary,
-          minimumSize: const Size.fromHeight(52),
+          minimumSize: const Size(64, 52),
           side: const BorderSide(color: AppColors.primary),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         ),

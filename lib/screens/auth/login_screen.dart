@@ -105,6 +105,27 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 28),
                   PrimaryButton(label: 'Log in', isLoading: _isSubmitting, onPressed: _submit),
                   const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      const Expanded(child: Divider(color: AppColors.divider)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Text('or', style: AppTextStyles.caption),
+                      ),
+                      const Expanded(child: Divider(color: AppColors.divider)),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: () =>
+                          context.read<AuthBloc>().add(const AuthGoogleSignInRequested()),
+                      icon: const Icon(Icons.g_mobiledata, size: 28),
+                      label: const Text('Continue with Google'),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                   Center(
                     child: TextButton(
                       onPressed: () => context.push(AppRoutes.signup),
