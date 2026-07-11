@@ -65,11 +65,10 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState> {
     final rows = _latestUsers
         .map((u) => AdminUserRow(user: u, startup: startupsByOwner[u.uid]))
         .toList();
-    final previous = state;
-    emit(AdminUsersLoaded(
-      rows: rows,
-      processingStartupIds: previous is AdminUsersLoaded ? previous.processingStartupIds : const {},
-    ));
+    // Don't carry processingStartupIds forward — see
+    // MyOpportunitiesBloc._onUpdated for why: a fresh snapshot means the
+    // write already resolved, so this is what actually clears the spinner.
+    emit(AdminUsersLoaded(rows: rows));
   }
 
   void _onFailed(AdminUsersFailed event, Emitter<AdminUsersState> emit) {

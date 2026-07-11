@@ -34,14 +34,16 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
         title: Text(titles[_index]),
         actions: const [NotificationBell()],
       ),
-      body: IndexedStack(
-        index: _index,
-        children: [
-          const OpportunityFeedView(),
-          MyApplicationsView(studentUid: authState.user.uid),
-          SavedOpportunitiesView(studentUid: authState.user.uid),
-          MyProfileView(uid: authState.user.uid),
-        ],
+      body: SafeArea(
+        child: IndexedStack(
+          index: _index,
+          children: [
+            const OpportunityFeedView(),
+            MyApplicationsView(studentUid: authState.user.uid),
+            SavedOpportunitiesView(studentUid: authState.user.uid),
+            MyProfileView(uid: authState.user.uid),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _index,

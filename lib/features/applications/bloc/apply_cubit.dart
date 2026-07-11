@@ -27,7 +27,7 @@ class ApplyCubit extends Cubit<ApplyState> {
   final String studentName;
   late final StreamSubscription<Application?> _subscription;
 
-  Future<void> apply() async {
+  Future<void> apply({Map<String, String> answers = const {}}) async {
     if (state is! ApplyNotApplied) return;
     emit(const ApplyInProgress());
     try {
@@ -38,6 +38,7 @@ class ApplyCubit extends Cubit<ApplyState> {
         startupName: opportunity.startupName,
         studentUid: studentUid,
         studentName: studentName,
+        answers: answers,
       );
       // success -> the stream subscription emits ApplyApplied
     } catch (e) {

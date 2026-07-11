@@ -22,7 +22,7 @@ class StartupGate extends StatelessWidget {
   Widget build(BuildContext context) {
     final authState = context.watch<AuthBloc>().state;
     if (authState is! AuthAuthenticated) {
-      return const Scaffold(body: LoadingView());
+      return const Scaffold(body: SafeArea(child: LoadingView()));
     }
 
     return BlocProvider(
@@ -45,7 +45,7 @@ class _StartupGateBody extends StatelessWidget {
           return PendingApprovalScreen(startup: state.startup);
         }
         if (state is StartupProfileVerified) return StartupHomeScreen(startup: state.startup);
-        return const Scaffold(body: LoadingView());
+        return const Scaffold(body: SafeArea(child: LoadingView()));
       },
     );
   }

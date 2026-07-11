@@ -179,7 +179,8 @@ class _OpportunityCard extends StatelessWidget {
                 runSpacing: 8,
                 children: [
                   _Tag(opportunity.category),
-                  if (opportunity.commitment.isNotEmpty) _Tag(opportunity.commitment),
+                  if (opportunity.commitment.isNotEmpty)
+                    _Tag('${opportunity.commitment} hrs/week'),
                   if (opportunity.location.isNotEmpty) _Tag(opportunity.location),
                 ],
               ),

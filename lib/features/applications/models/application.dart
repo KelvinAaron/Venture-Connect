@@ -11,6 +11,11 @@ class Application extends Equatable {
   final String studentUid;
   final String studentName;
   final ApplicationStatus status;
+
+  /// The opportunity's custom questions answered at apply time, keyed by
+  /// question text. Empty if the posting had none.
+  final Map<String, String> answers;
+
   final DateTime? appliedAt;
   final DateTime? updatedAt;
 
@@ -23,6 +28,7 @@ class Application extends Equatable {
     required this.studentUid,
     required this.studentName,
     required this.status,
+    this.answers = const {},
     this.appliedAt,
     this.updatedAt,
   });
@@ -37,6 +43,7 @@ class Application extends Equatable {
       studentUid: map['studentUid'] as String? ?? '',
       studentName: map['studentName'] as String? ?? '',
       status: ApplicationStatusX.fromString(map['status'] as String? ?? 'applied'),
+      answers: Map<String, String>.from(map['answers'] as Map? ?? const {}),
       appliedAt: (map['appliedAt'] as Timestamp?)?.toDate(),
       updatedAt: (map['updatedAt'] as Timestamp?)?.toDate(),
     );
@@ -51,6 +58,7 @@ class Application extends Equatable {
       'studentUid': studentUid,
       'studentName': studentName,
       'status': ApplicationStatus.applied.name,
+      'answers': answers,
       'appliedAt': FieldValue.serverTimestamp(),
     };
   }
@@ -65,6 +73,7 @@ class Application extends Equatable {
         studentUid,
         studentName,
         status,
+        answers,
         appliedAt,
         updatedAt,
       ];

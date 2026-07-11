@@ -30,6 +30,7 @@ class ApplicationRepository {
     required String startupName,
     required String studentUid,
     required String studentName,
+    Map<String, String> answers = const {},
   }) async {
     final application = Application(
       id: _docId(opportunityId, studentUid),
@@ -40,6 +41,7 @@ class ApplicationRepository {
       studentUid: studentUid,
       studentName: studentName,
       status: ApplicationStatus.applied,
+      answers: answers,
     );
     await _applications.doc(application.id).set(application.toCreateMap());
   }

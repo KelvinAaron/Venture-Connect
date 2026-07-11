@@ -27,12 +27,14 @@ class _StartupHomeScreenState extends State<StartupHomeScreen> {
         title: Text(titles[_index]),
         actions: const [NotificationBell()],
       ),
-      body: IndexedStack(
-        index: _index,
-        children: [
-          MyOpportunitiesView(startup: widget.startup),
-          StartupProfileView(startup: widget.startup),
-        ],
+      body: SafeArea(
+        child: IndexedStack(
+          index: _index,
+          children: [
+            MyOpportunitiesView(startup: widget.startup),
+            StartupProfileView(startup: widget.startup),
+          ],
+        ),
       ),
       floatingActionButton: _index == 0
           ? FloatingActionButton(

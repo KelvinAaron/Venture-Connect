@@ -5,12 +5,11 @@ import '../../core/utils/validators.dart';
 import '../../core/widgets/initials_avatar.dart';
 import '../../core/widgets/loading_view.dart';
 import '../../core/widgets/primary_button.dart';
-import '../../features/auth/bloc/auth_bloc.dart';
-import '../../features/auth/bloc/auth_event.dart';
 import '../../features/auth/bloc/profile_cubit.dart';
 import '../../features/auth/bloc/profile_state.dart';
 import '../../features/auth/data/auth_repository.dart';
 import '../../features/auth/models/app_user.dart';
+import '../auth/logout_confirmation.dart';
 
 /// Body-only widget embedded by StudentHomeScreen's "Profile" tab.
 class MyProfileView extends StatelessWidget {
@@ -129,7 +128,7 @@ class _MyProfileBodyState extends State<_MyProfileBody> {
                 SizedBox(
                   width: double.infinity,
                   child: OutlinedButton.icon(
-                    onPressed: () => context.read<AuthBloc>().add(const AuthLogoutRequested()),
+                    onPressed: () => confirmAndLogOut(context),
                     icon: const Icon(Icons.logout),
                     label: const Text('Log out'),
                   ),

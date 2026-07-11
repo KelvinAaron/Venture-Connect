@@ -13,6 +13,7 @@ class PostOpportunityCubit extends Cubit<PostOpportunityState> {
   final OpportunityRepository _repository;
 
   Future<void> create(Opportunity opportunity) async {
+    if (state is PostOpportunitySubmitting) return;
     emit(const PostOpportunitySubmitting());
     try {
       await _repository.createOpportunity(opportunity);
@@ -23,6 +24,7 @@ class PostOpportunityCubit extends Cubit<PostOpportunityState> {
   }
 
   Future<void> update(Opportunity opportunity) async {
+    if (state is PostOpportunitySubmitting) return;
     emit(const PostOpportunitySubmitting());
     try {
       await _repository.updateOpportunity(opportunity);

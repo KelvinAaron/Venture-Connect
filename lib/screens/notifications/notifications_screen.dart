@@ -47,26 +47,28 @@ class _NotificationsScaffold extends StatelessWidget {
           ),
         ],
       ),
-      body: BlocBuilder<NotificationsBloc, NotificationsState>(
-        builder: (context, state) {
-          if (state is NotificationsLoading) return const LoadingView();
-          if (state is NotificationsError) return ErrorView(message: state.message);
+      body: SafeArea(
+        child: BlocBuilder<NotificationsBloc, NotificationsState>(
+          builder: (context, state) {
+            if (state is NotificationsLoading) return const LoadingView();
+            if (state is NotificationsError) return ErrorView(message: state.message);
 
-          final list = (state as NotificationsLoaded).notifications;
-          if (list.isEmpty) {
-            return const EmptyState(
-              icon: Icons.notifications_none,
-              title: 'No notifications yet',
-              message: 'Updates about your applications and startup status will show up here.',
+            final list = (state as NotificationsLoaded).notifications;
+            if (list.isEmpty) {
+              return const EmptyState(
+                icon: Icons.notifications_none,
+                title: 'No notifications yet',
+                message: 'Updates about your applications and startup status will show up here.',
+              );
+            }
+            return ListView.separated(
+              padding: const EdgeInsets.all(16),
+              itemCount: list.length,
+              separatorBuilder: (_, _) => const SizedBox(height: 8),
+              itemBuilder: (context, index) => _NotificationTile(notification: list[index]),
             );
-          }
-          return ListView.separated(
-            padding: const EdgeInsets.all(16),
-            itemCount: list.length,
-            separatorBuilder: (_, _) => const SizedBox(height: 8),
-            itemBuilder: (context, index) => _NotificationTile(notification: list[index]),
-          );
-        },
+          },
+        ),
       ),
     );
   }

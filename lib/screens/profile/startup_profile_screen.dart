@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/constants/categories.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/validators.dart';
 import '../../core/widgets/primary_button.dart';
 import '../../core/widgets/status_badge.dart';
-import '../../features/auth/bloc/auth_bloc.dart';
-import '../../features/auth/bloc/auth_event.dart';
 import '../../features/startup_profile/data/startup_repository.dart';
 import '../../features/startup_profile/models/startup.dart';
 import '../../features/startup_profile/models/verification_status.dart';
+import '../auth/logout_confirmation.dart';
 
 /// Embedded by StartupHomeScreen's "Profile" tab. Edits flow back through
 /// StartupGate's live stream automatically — no local refresh needed here,
@@ -149,7 +147,7 @@ class _StartupProfileViewState extends State<StartupProfileView> {
             SizedBox(
               width: double.infinity,
               child: OutlinedButton.icon(
-                onPressed: () => context.read<AuthBloc>().add(const AuthLogoutRequested()),
+                onPressed: () => confirmAndLogOut(context),
                 icon: const Icon(Icons.logout),
                 label: const Text('Log out'),
               ),

@@ -14,6 +14,10 @@ class Opportunity extends Equatable {
   final bool isOpen;
   final DateTime? createdAt;
 
+  /// Short-answer questions a startup wants applicants to answer, shown to
+  /// students on the Apply flow and answered per-application.
+  final List<String> customQuestions;
+
   const Opportunity({
     required this.id,
     required this.startupId,
@@ -25,6 +29,7 @@ class Opportunity extends Equatable {
     required this.commitment,
     required this.location,
     required this.isOpen,
+    this.customQuestions = const [],
     this.createdAt,
   });
 
@@ -40,6 +45,7 @@ class Opportunity extends Equatable {
       commitment: map['commitment'] as String? ?? '',
       location: map['location'] as String? ?? '',
       isOpen: map['isOpen'] as bool? ?? true,
+      customQuestions: List<String>.from(map['customQuestions'] as List? ?? const []),
       createdAt: (map['createdAt'] as Timestamp?)?.toDate(),
     );
   }
@@ -55,6 +61,7 @@ class Opportunity extends Equatable {
       'commitment': commitment,
       'location': location,
       'isOpen': true,
+      'customQuestions': customQuestions,
       'createdAt': FieldValue.serverTimestamp(),
     };
   }
@@ -67,6 +74,7 @@ class Opportunity extends Equatable {
       'skillsRequired': skillsRequired,
       'commitment': commitment,
       'location': location,
+      'customQuestions': customQuestions,
     };
   }
 
@@ -82,6 +90,7 @@ class Opportunity extends Equatable {
         commitment,
         location,
         isOpen,
+        customQuestions,
         createdAt,
       ];
 }

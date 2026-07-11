@@ -25,7 +25,7 @@ class ApplicantsScreen extends StatelessWidget {
         ..add(ApplicantsSubscriptionRequested(opportunity.id)),
       child: Scaffold(
         appBar: AppBar(title: Text('Applicants — ${opportunity.title}')),
-        body: const _ApplicantsBody(),
+        body: const SafeArea(child: _ApplicantsBody()),
       ),
     );
   }
@@ -99,6 +99,21 @@ class _ApplicantCard extends StatelessWidget {
                 StatusBadge(label: application.status.label, foreground: fg, background: bg),
               ],
             ),
+            if (application.answers.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              for (final entry in application.answers.entries)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(entry.key, style: AppTextStyles.caption),
+                      const SizedBox(height: 2),
+                      Text(entry.value, style: AppTextStyles.body),
+                    ],
+                  ),
+                ),
+            ],
             const SizedBox(height: 12),
             if (isProcessing)
               const Center(

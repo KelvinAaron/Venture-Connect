@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../features/auth/bloc/auth_bloc.dart';
-import '../../features/auth/bloc/auth_event.dart';
+import '../auth/logout_confirmation.dart';
 import '../startup_profile/admin_verification_screen.dart';
 import '../user_management/admin_users_screen.dart';
 
@@ -30,13 +28,15 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           IconButton(
             icon: const Icon(Icons.logout),
             tooltip: 'Log out',
-            onPressed: () => context.read<AuthBloc>().add(const AuthLogoutRequested()),
+            onPressed: () => confirmAndLogOut(context),
           ),
         ],
       ),
-      body: IndexedStack(
-        index: _index,
-        children: const [AdminVerificationView(), AdminUsersView()],
+      body: SafeArea(
+        child: IndexedStack(
+          index: _index,
+          children: const [AdminVerificationView(), AdminUsersView()],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _index,
