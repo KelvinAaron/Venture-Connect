@@ -33,8 +33,7 @@ class AdminUsersFailed extends AdminUsersEvent {
   List<Object?> get props => [message];
 }
 
-/// Lets the admin approve/reject a startup directly from user management,
-/// same underlying action as the dedicated verifications queue.
+// admin approve/reject a startup directly from user list
 class AdminUsersStartupDecided extends AdminUsersEvent {
   final String startupId;
   final bool approve;

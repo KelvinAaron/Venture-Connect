@@ -8,10 +8,7 @@ import '../models/admin_user_row.dart';
 import 'admin_users_event.dart';
 import 'admin_users_state.dart';
 
-/// Combines two independent Firestore streams (`users`, `startups`) into a
-/// single live list of [AdminUserRow]. Firestore has no server-side join,
-/// so this keeps the latest snapshot of each stream and recomputes the
-/// merged list whenever either one emits.
+// gets both users and startups
 class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState> {
   AdminUsersBloc(this._userRepository, this._startupRepository) : super(const AdminUsersLoading()) {
     on<AdminUsersSubscriptionRequested>(_onSubscriptionRequested);
@@ -65,9 +62,6 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState> {
     final rows = _latestUsers
         .map((u) => AdminUserRow(user: u, startup: startupsByOwner[u.uid]))
         .toList();
-    // Don't carry processingStartupIds forward — see
-    // MyOpportunitiesBloc._onUpdated for why: a fresh snapshot means the
-    // write already resolved, so this is what actually clears the spinner.
     emit(AdminUsersLoaded(rows: rows));
   }
 
@@ -87,7 +81,6 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState> {
     ));
     try {
       await _startupRepository.decide(event.startupId, approve: event.approve);
-      // success -> the startups stream listener emits refreshed rows
     } catch (_) {
       final latest = state;
       if (latest is AdminUsersLoaded) {

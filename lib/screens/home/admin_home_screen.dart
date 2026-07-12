@@ -3,10 +3,7 @@ import '../auth/logout_confirmation.dart';
 import '../startup_profile/admin_verification_screen.dart';
 import '../user_management/admin_users_screen.dart';
 
-/// Route target for `/admin`. Two sections: the pending-only verification
-/// queue, and a full user directory where startup status can also be
-/// changed. Both stay mounted via IndexedStack so switching tabs doesn't
-/// re-subscribe their Firestore streams.
+// home screen for admins
 class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({super.key});
 

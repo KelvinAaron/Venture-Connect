@@ -8,7 +8,7 @@ sealed class AuthEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Internal event fired whenever FirebaseAuth's own auth state changes.
+// Internal event fired whenever FirebaseAuth's own auth state changes.
 class AuthUserChanged extends AuthEvent {
   final User? firebaseUser;
   const AuthUserChanged(this.firebaseUser);
@@ -47,8 +47,8 @@ class AuthGoogleSignInRequested extends AuthEvent {
   const AuthGoogleSignInRequested();
 }
 
-/// Submits the role chosen on RoleSelectionScreen for a first-time Google
-/// sign-in, completing that account's Firestore profile.
+
+// submit the role chosen when signinup with google
 class AuthRoleSelectionSubmitted extends AuthEvent {
   final UserRole role;
   const AuthRoleSelectionSubmitted(this.role);

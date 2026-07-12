@@ -107,9 +107,6 @@ class _ApplySection extends StatelessWidget {
   }
 }
 
-/// Owns the answer fields for the posting's custom questions (if any) so
-/// they can be answered right here, inline, rather than in a separate
-/// popup sprung on the student after they've already tapped Apply.
 class _ApplySectionBody extends StatefulWidget {
   final List<String> questions;
   const _ApplySectionBody({required this.questions});
@@ -226,9 +223,6 @@ class _ApplySectionBodyState extends State<_ApplySectionBody> {
   }
 }
 
-/// Icon + label row for a single, unambiguous fact about the posting
-/// (commitment, location, posted date) — plain unlabeled pills read as
-/// "which field is this?" at a glance, so each fact gets its own icon.
 class _DetailRow extends StatelessWidget {
   final IconData icon;
   final String label;

@@ -1,5 +1,4 @@
-/// A startup profile starts `pending` on creation. An admin then decides,
-/// moving it to `verified` (unlocks opportunity posting) or `rejected`.
+// startup profile starts pending on creation admin verifies
 enum VerificationStatus { pending, verified, rejected }
 
 extension VerificationStatusX on VerificationStatus {

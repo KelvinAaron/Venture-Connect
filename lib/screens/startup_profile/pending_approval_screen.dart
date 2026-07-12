@@ -4,8 +4,7 @@ import '../../core/theme/app_text_styles.dart';
 import '../../features/startup_profile/models/startup.dart';
 import '../auth/logout_confirmation.dart';
 
-/// Shown for a startup profile that isn't verified yet — either still
-/// pending review, or rejected by an admin.
+// Shown for a startup profile that isn't verified yet
 class PendingApprovalScreen extends StatelessWidget {
   final Startup startup;
   const PendingApprovalScreen({super.key, required this.startup});

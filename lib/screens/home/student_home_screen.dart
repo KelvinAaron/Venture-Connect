@@ -8,8 +8,7 @@ import '../notifications/notification_bell.dart';
 import '../opportunities/opportunity_feed_screen.dart';
 import '../profile/my_profile_screen.dart';
 
-/// Route target for `/student`. Four tabs, all mounted via IndexedStack so
-/// switching tabs doesn't re-subscribe their Firestore streams.
+// homescreen for students
 class StudentHomeScreen extends StatefulWidget {
   const StudentHomeScreen({super.key});
 

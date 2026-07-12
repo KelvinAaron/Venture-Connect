@@ -5,12 +5,7 @@ class ProfileState extends Equatable {
   final bool isLoading;
   final AppUser? user;
   final bool isSaving;
-  final String? error;
-
-  /// Stamped whenever [error] is set, so two consecutive save failures with
-  /// the same message are never value-equal — see AuthFailure for why that
-  /// matters (Bloc's emit() silently no-ops on an unchanged state, which
-  /// would otherwise swallow the second identical error entirely).
+  final String? error;  
   final DateTime? _errorAt;
 
   const ProfileState({

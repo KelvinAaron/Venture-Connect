@@ -32,7 +32,7 @@ class OpportunityFeedSearchChanged extends OpportunityFeedEvent {
   List<Object?> get props => [query];
 }
 
-/// Pass null to clear the category filter.
+// Pass null to clear the category filter.
 class OpportunityFeedCategoryChanged extends OpportunityFeedEvent {
   final String? category;
   const OpportunityFeedCategoryChanged(this.category);

@@ -13,9 +13,6 @@ class Opportunity extends Equatable {
   final String location;
   final bool isOpen;
   final DateTime? createdAt;
-
-  /// Short-answer questions a startup wants applicants to answer, shown to
-  /// students on the Apply flow and answered per-application.
   final List<String> customQuestions;
 
   const Opportunity({

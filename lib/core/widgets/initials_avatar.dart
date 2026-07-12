@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 
-/// A colored circle avatar showing a name's initials, deterministically
-/// colored from [name] so the same name always renders the same color.
-/// Used instead of uploaded profile photos to avoid a Firebase Storage
-/// dependency for this project.
+// a colored circle avatar showing a name's initials
+ 
 class InitialsAvatar extends StatelessWidget {
   final String name;
   final double radius;

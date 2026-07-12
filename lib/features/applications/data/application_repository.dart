@@ -11,10 +11,6 @@ class ApplicationRepository {
 
   CollectionReference<Map<String, dynamic>> get _applications => _firestore.collection('applications');
 
-  /// Deterministic doc id makes "has this student already applied to this
-  /// opportunity" a direct doc lookup instead of a query, and makes
-  /// duplicate applications structurally impossible (a second `apply` call
-  /// just overwrites the same doc rather than creating a second one).
   String _docId(String opportunityId, String studentUid) => '${opportunityId}_$studentUid';
 
   Stream<Application?> applicationStream(String opportunityId, String studentUid) {
@@ -56,7 +52,7 @@ class ApplicationRepository {
     });
   }
 
-  /// Every applicant for one posting, for the startup's "Applicants" view.
+  // applicants for a posting.
   Stream<List<Application>> applicantsForOpportunityStream(String opportunityId) {
     return _applications.where('opportunityId', isEqualTo: opportunityId).snapshots().map((snap) {
       final list = snap.docs.map((d) => Application.fromMap(d.id, d.data())).toList();

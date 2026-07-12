@@ -11,7 +11,6 @@ import '../../features/auth/data/auth_repository.dart';
 import '../../features/auth/models/app_user.dart';
 import '../auth/logout_confirmation.dart';
 
-/// Body-only widget embedded by StudentHomeScreen's "Profile" tab.
 class MyProfileView extends StatelessWidget {
   final String uid;
   const MyProfileView({super.key, required this.uid});

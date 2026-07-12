@@ -11,10 +11,6 @@ import '../home/startup_home_screen.dart';
 import 'create_startup_profile_screen.dart';
 import 'pending_approval_screen.dart';
 
-/// Route target for `/startup`. Owns a [StartupProfileBloc] scoped to the
-/// signed-in startup user's uid and renders whichever sub-screen matches
-/// their current verification state, so go_router only needs one coarse
-/// role route instead of separate routes per sub-state.
 class StartupGate extends StatelessWidget {
   const StartupGate({super.key});
 

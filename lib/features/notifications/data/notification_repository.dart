@@ -30,11 +30,7 @@ class NotificationRepository {
     await batch.commit();
   }
 
-  /// Queues a notification write into an existing [batch] so other
-  /// repositories (applications, startup verification) can attach a
-  /// notification to the same atomic write as their own mutation, without
-  /// each needing to know the `users/{uid}/notifications` schema/path
-  /// themselves.
+  // handles batch notifications from different sources
   static void queue(
     WriteBatch batch,
     FirebaseFirestore firestore, {

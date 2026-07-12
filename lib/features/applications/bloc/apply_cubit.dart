@@ -5,10 +5,6 @@ import '../models/application.dart';
 import '../../opportunities/models/opportunity.dart';
 import 'apply_state.dart';
 
-/// Scoped to one (opportunity, student) pair — created fresh per
-/// OpportunityDetailScreen instance. Streams the deterministic
-/// `${opportunityId}_$studentUid` doc so "already applied" is always
-/// accurate without a query, and drives the Apply button's state.
 class ApplyCubit extends Cubit<ApplyState> {
   ApplyCubit(
     this._repository, {

@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'verification_status.dart';
 
 class Startup extends Equatable {
-  final String id; // == ownerUid, keeps a 1:1 owner-to-startup mapping
+  final String id;
   final String ownerUid;
   final String name;
   final String description;

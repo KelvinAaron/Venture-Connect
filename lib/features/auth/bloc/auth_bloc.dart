@@ -6,10 +6,7 @@ import '../data/auth_repository.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 
-/// Single source of truth for auth state. Login/sign-up handlers only call
-/// the repository and surface failures; success is always driven by the
-/// authStateChanges subscription below, so there is never a race between
-/// two different code paths both deciding when the user is "authenticated".
+// get auth state. 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this._authRepository) : super(const AuthInitial()) {
     on<AuthUserChanged>(_onUserChanged);

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 
-/// Shown briefly while [main] initializes Firebase and, from Step 2 onward,
-/// while AuthBloc determines whether a user session already exists.
+/// Shown briefly while on cold boot
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 

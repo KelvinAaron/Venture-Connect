@@ -8,7 +8,7 @@ class UserRepository {
 
   CollectionReference<Map<String, dynamic>> get _users => _firestore.collection('users');
 
-  /// Every account in the system, for the admin user-management view.
+  // Every account in the system
   Stream<List<AppUser>> allUsersStream() {
     return _users.snapshots().map((snap) {
       final list = snap.docs.map((d) => AppUser.fromMap(d.id, d.data())).toList();

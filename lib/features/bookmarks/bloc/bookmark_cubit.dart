@@ -3,9 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../data/bookmark_repository.dart';
 import 'bookmark_state.dart';
 
-/// Scoped to one (uid, opportunityId) pair — created fresh per
-/// BookmarkButton instance, so each card in a list drives its own icon
-/// independently off a live Firestore doc-existence stream.
 class BookmarkCubit extends Cubit<BookmarkState> {
   BookmarkCubit(this._repository, {required this.uid, required this.opportunityId})
       : super(const BookmarkState()) {

@@ -9,8 +9,7 @@ import '../../features/auth/bloc/auth_event.dart';
 import '../../features/auth/bloc/auth_state.dart';
 import '../../features/auth/models/user_role.dart';
 
-/// Shown after a first-time Google sign-in, since Google skips our custom
-/// signup form and its role picker.
+// for when users sign-up with google
 class RoleSelectionScreen extends StatefulWidget {
   const RoleSelectionScreen({super.key});
 

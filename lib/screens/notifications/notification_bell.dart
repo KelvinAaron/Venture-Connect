@@ -8,8 +8,6 @@ import '../../features/notifications/bloc/notifications_state.dart';
 import '../../features/notifications/data/notification_repository.dart';
 import 'notifications_screen.dart';
 
-/// AppBar action for student/startup home screens — bell icon with an
-/// unread-count badge, pushing NotificationsScreen on tap.
 class NotificationBell extends StatelessWidget {
   const NotificationBell({super.key});
 

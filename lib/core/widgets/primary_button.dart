@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-/// An [ElevatedButton] that swaps its label for a spinner while [isLoading]
-/// is true and disables itself, so async submit flows (login, post form,
-/// apply) don't need to repeat this pattern everywhere.
+// spinner when loading asunc codes
+
 class PrimaryButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;

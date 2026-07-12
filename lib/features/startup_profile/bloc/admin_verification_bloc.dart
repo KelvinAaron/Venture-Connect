@@ -47,8 +47,6 @@ class AdminVerificationBloc extends Bloc<AdminVerificationEvent, AdminVerificati
     ));
     try {
       await _repository.decide(event.startupId, approve: event.approve);
-      // success -> the stream listener emits the refreshed list; the
-      // decided startup drops out of pendingStartupsStream automatically.
     } catch (_) {
       final latest = state;
       if (latest is AdminVerificationLoaded) {

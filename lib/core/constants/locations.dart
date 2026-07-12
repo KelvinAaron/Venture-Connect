@@ -1,2 +1,3 @@
-/// Fixed set of locations an opportunity can be posted under.
+// locations an opportunity can be posted under
+
 const List<String> kLocations = ['Remote', 'On-Campus', 'Kigali'];

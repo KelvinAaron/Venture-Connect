@@ -15,9 +15,6 @@ import '../../features/startup_profile/models/startup.dart';
 import '../applications/applicants_screen.dart';
 import 'post_opportunity_screen.dart';
 
-/// Body-only widget embedded by StartupHomeScreen. Every posting owned by
-/// this startup, open and closed alike, with edit/close/reopen actions and
-/// a link into that posting's applicant list.
 class MyOpportunitiesView extends StatelessWidget {
   final Startup startup;
   const MyOpportunitiesView({super.key, required this.startup});

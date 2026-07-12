@@ -8,8 +8,6 @@ class BookmarkRepository {
   CollectionReference<Map<String, dynamic>> _bookmarks(String uid) =>
       _firestore.collection('users').doc(uid).collection('bookmarks');
 
-  /// Doc id == opportunityId, so checking/toggling a single bookmark never
-  /// needs a query.
   Stream<bool> isBookmarkedStream(String uid, String opportunityId) {
     return _bookmarks(uid).doc(opportunityId).snapshots().map((doc) => doc.exists);
   }

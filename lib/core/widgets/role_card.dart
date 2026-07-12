@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 
-/// Selectable card used to pick between Student/Startup — on the signup
-/// form, and again on RoleSelectionScreen for first-time Google sign-ins.
+// card used to pick between Student or Startup
+
 class RoleCard extends StatelessWidget {
   final String label;
   final String description;

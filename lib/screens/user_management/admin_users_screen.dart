@@ -16,10 +16,6 @@ import '../../features/user_management/bloc/admin_users_state.dart';
 import '../../features/user_management/data/user_repository.dart';
 import '../../features/user_management/models/admin_user_row.dart';
 
-/// Body-only widget (no Scaffold) so it can be embedded by AdminHomeScreen,
-/// same pattern as AdminVerificationView. Lists every account in the
-/// system; startup-role rows also get Approve/Reject controls so admins
-/// don't have to leave this screen to manage verification.
 class AdminUsersView extends StatelessWidget {
   const AdminUsersView({super.key});
 

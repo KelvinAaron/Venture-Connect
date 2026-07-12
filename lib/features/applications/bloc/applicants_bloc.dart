@@ -28,9 +28,6 @@ class ApplicantsBloc extends Bloc<ApplicantsEvent, ApplicantsState> {
   }
 
   void _onUpdated(ApplicantsUpdated event, Emitter<ApplicantsState> emit) {
-    // Don't carry processingIds forward — see MyOpportunitiesBloc._onUpdated
-    // for why: a fresh snapshot means the write already resolved, so this
-    // is what actually clears the spinner.
     emit(ApplicantsLoaded(applicants: event.applicants));
   }
 

@@ -10,9 +10,7 @@ class OpportunityRepository {
   CollectionReference<Map<String, dynamic>> get _opportunities =>
       _firestore.collection('opportunities');
 
-  /// Every open posting, for the student discovery feed. Filters
-  /// server-side on `isOpen`, sorts client-side by createdAt — same
-  /// index-avoidance approach used elsewhere in this app.
+  // get all open posting, for the student discovery feed
   Stream<List<Opportunity>> openOpportunitiesStream() {
     return _opportunities.where('isOpen', isEqualTo: true).snapshots().map((snap) {
       final list = snap.docs.map((d) => Opportunity.fromMap(d.id, d.data())).toList();
@@ -21,8 +19,7 @@ class OpportunityRepository {
     });
   }
 
-  /// All of one startup's postings (open and closed), for their own
-  /// "My postings" management view.
+  /// get all postings for a startup
   Stream<List<Opportunity>> myOpportunitiesStream(String startupId) {
     return _opportunities.where('startupId', isEqualTo: startupId).snapshots().map((snap) {
       final list = snap.docs.map((d) => Opportunity.fromMap(d.id, d.data())).toList();
@@ -31,10 +28,7 @@ class OpportunityRepository {
     });
   }
 
-  /// Every posting regardless of owner or status — used to resolve a
-  /// student's bookmarked opportunity ids into full Opportunity data
-  /// (a bookmarked posting may have since been closed, so this
-  /// deliberately isn't limited to openOpportunitiesStream).
+  // get all posting
   Stream<List<Opportunity>> allOpportunitiesStream() {
     return _opportunities.snapshots().map(
           (snap) => snap.docs.map((d) => Opportunity.fromMap(d.id, d.data())).toList(),

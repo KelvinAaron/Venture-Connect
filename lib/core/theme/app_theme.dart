@@ -64,11 +64,6 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
-          // Bounded, not Size.fromHeight(52) (width: infinity) — that
-          // crashes any button placed in a Row (e.g. side-by-side actions)
-          // since a Row gives children unbounded width to size themselves.
-          // Widgets that want a full-width button (PrimaryButton) wrap
-          // themselves in a SizedBox(width: double.infinity) instead.
           minimumSize: const Size(64, 52),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
           elevation: 0,

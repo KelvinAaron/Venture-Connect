@@ -3,10 +3,7 @@ import '../data/opportunity_repository.dart';
 import '../models/opportunity.dart';
 import 'post_opportunity_state.dart';
 
-/// Drives PostOpportunityScreen's submit action, for both creating a new
-/// posting and editing an existing one. Kept separate from
-/// MyOpportunitiesBloc since that bloc's job is streaming/display, not
-/// one-shot form submission.
+// handles creating and edit a posting since the state management is direct
 class PostOpportunityCubit extends Cubit<PostOpportunityState> {
   PostOpportunityCubit(this._repository) : super(const PostOpportunityIdle());
 

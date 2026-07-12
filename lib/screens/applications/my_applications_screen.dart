@@ -14,7 +14,7 @@ import '../../features/applications/data/application_repository.dart';
 import '../../features/applications/models/application.dart';
 import '../../features/applications/models/application_status.dart';
 
-/// Body-only widget embedded by StudentHomeScreen's "Applications" tab.
+// Body-only widget embedded by StudentHomeScreen's Applications tab.
 class MyApplicationsView extends StatelessWidget {
   final String studentUid;
   const MyApplicationsView({super.key, required this.studentUid});

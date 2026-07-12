@@ -9,10 +9,6 @@ import '../../features/startup_profile/models/startup.dart';
 import '../../features/startup_profile/models/verification_status.dart';
 import '../auth/logout_confirmation.dart';
 
-/// Embedded by StartupHomeScreen's "Profile" tab. Edits flow back through
-/// StartupGate's live stream automatically — no local refresh needed here,
-/// since StartupGate rebuilds StartupHomeScreen with the latest Startup
-/// whenever the underlying doc changes.
 class StartupProfileView extends StatefulWidget {
   final Startup startup;
   const StartupProfileView({super.key, required this.startup});

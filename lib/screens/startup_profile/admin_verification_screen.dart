@@ -11,8 +11,6 @@ import '../../features/startup_profile/bloc/admin_verification_state.dart';
 import '../../features/startup_profile/data/startup_repository.dart';
 import '../../features/startup_profile/models/startup.dart';
 
-/// Body-only widget (no Scaffold) so it can be embedded by AdminHomeScreen.
-/// Provides its own [AdminVerificationBloc] scoped to this screen's lifetime.
 class AdminVerificationView extends StatelessWidget {
   const AdminVerificationView({super.key});
 

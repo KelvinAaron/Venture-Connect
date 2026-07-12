@@ -21,32 +21,21 @@ GoRouter buildAppRouter(AuthBloc authBloc) {
       GoRoute(path: AppRoutes.splash, builder: (context, state) => const SplashScreen()),
       GoRoute(path: AppRoutes.login, builder: (context, state) => const LoginScreen()),
       GoRoute(path: AppRoutes.signup, builder: (context, state) => const SignupScreen()),
-      GoRoute(
-        path: AppRoutes.roleSelection,
-        builder: (context, state) => const RoleSelectionScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.studentHome,
-        builder: (context, state) => const StudentHomeScreen(),
-      ),
+      GoRoute(path: AppRoutes.roleSelection,builder: (context, state) => const RoleSelectionScreen()),
+      GoRoute(path: AppRoutes.studentHome,builder: (context, state) => const StudentHomeScreen()),
       GoRoute(path: AppRoutes.startupHome, builder: (context, state) => const StartupGate()),
       GoRoute(path: AppRoutes.adminHome, builder: (context, state) => const AdminHomeScreen()),
     ],
   );
 }
 
-/// Coarse, role-level redirect only. Finer-grained state within a role
-/// (e.g. a startup owner's create-profile vs pending vs verified views)
-/// is handled inside that route's own widget (see StartupGate), not here.
+// auth and role level redirect only
 String? _redirect(AuthBloc authBloc, GoRouterState state) {
   final authState = authBloc.state;
   final loc = state.matchedLocation;
   final onAuthPages = loc == AppRoutes.login || loc == AppRoutes.signup;
 
   if (authState is AuthInitial || authState is AuthLoading) {
-    // Don't yank the user off the login/signup form while a login/sign-up
-    // attempt is resolving (authStateChanges fires -> brief AuthLoading
-    // -> AuthAuthenticated); only force the splash screen at cold start.
     return (loc == AppRoutes.splash || onAuthPages) ? null : AppRoutes.splash;
   }
 

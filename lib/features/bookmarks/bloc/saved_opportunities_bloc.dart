@@ -6,9 +6,6 @@ import '../data/bookmark_repository.dart';
 import 'saved_opportunities_event.dart';
 import 'saved_opportunities_state.dart';
 
-/// Firestore has no server-side join, so this combines two independent
-/// streams (a user's bookmarked ids, and every opportunity) client-side —
-/// same pattern as AdminUsersBloc joining users onto startups.
 class SavedOpportunitiesBloc extends Bloc<SavedOpportunitiesEvent, SavedOpportunitiesState> {
   SavedOpportunitiesBloc(this._bookmarkRepository, this._opportunityRepository)
       : super(const SavedOpportunitiesLoading()) {

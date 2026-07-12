@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-/// Generic colored pill for showing a short status label (application
-/// status, verification status, opportunity status, etc). The color
-/// mapping for each domain status lives with that domain's model.
+// coloured container for short a short status label
+
 class StatusBadge extends StatelessWidget {
   final String label;
   final Color foreground;

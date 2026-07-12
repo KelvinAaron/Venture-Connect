@@ -15,7 +15,6 @@ import '../../features/opportunities/models/opportunity.dart';
 import '../bookmarks/bookmark_button.dart';
 import 'opportunity_detail_screen.dart';
 
-/// Body-only widget embedded by StudentHomeScreen's "Discover" tab.
 class OpportunityFeedView extends StatelessWidget {
   const OpportunityFeedView({super.key});
 

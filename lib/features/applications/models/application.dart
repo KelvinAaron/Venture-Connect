@@ -11,11 +11,7 @@ class Application extends Equatable {
   final String studentUid;
   final String studentName;
   final ApplicationStatus status;
-
-  /// The opportunity's custom questions answered at apply time, keyed by
-  /// question text. Empty if the posting had none.
   final Map<String, String> answers;
-
   final DateTime? appliedAt;
   final DateTime? updatedAt;
 

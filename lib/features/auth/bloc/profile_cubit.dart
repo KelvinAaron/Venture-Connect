@@ -4,10 +4,7 @@ import '../data/auth_repository.dart';
 import '../models/app_user.dart';
 import 'profile_state.dart';
 
-/// Streams the signed-in user's own profile doc and drives edits to it.
-/// Kept separate from AuthBloc (which only fetches the profile once at
-/// sign-in) so editing skills/interests/bio doesn't need AuthBloc itself
-/// to become a live subscription.
+// streams the signed-in user's own profile doc and drives edits to it
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit(this._repository, {required this.uid}) : super(const ProfileState()) {
     _subscription = _repository.userProfileStream(uid).listen(

@@ -10,9 +10,6 @@ class StartupRepository {
 
   CollectionReference<Map<String, dynamic>> get _startups => _firestore.collection('startups');
 
-  /// Streams the calling startup owner's own profile (or null if they
-  /// haven't created one yet). Doc id == ownerUid, so this is a direct doc
-  /// lookup, not a query.
   Stream<Startup?> myStartupStream(String ownerUid) {
     return _startups.doc(ownerUid).snapshots().map(
           (doc) => doc.exists ? Startup.fromMap(doc.id, doc.data()!) : null,
@@ -38,10 +35,7 @@ class StartupRepository {
     await _startups.doc(ownerUid).set(startup.toCreateMap());
   }
 
-  /// Filters server-side on `status`, then sorts client-side by createdAt.
-  /// Avoids requiring a manual composite Firestore index for a
-  /// filter+orderBy combo, which isn't worth the setup friction at this
-  /// project's scale.
+  // get startups by status
   Stream<List<Startup>> pendingStartupsStream() {
     return _startups
         .where('status', isEqualTo: VerificationStatus.pending.name)
@@ -53,8 +47,7 @@ class StartupRepository {
     });
   }
 
-  /// All startups regardless of status — used by the admin user-management
-  /// view to join startup verification info onto every startup-role user.
+  // gets all startups regardless of status 
   Stream<List<Startup>> allStartupsStream() {
     return _startups.snapshots().map(
           (snap) => snap.docs.map((d) => Startup.fromMap(d.id, d.data())).toList(),
@@ -70,7 +63,7 @@ class StartupRepository {
     NotificationRepository.queue(
       batch,
       _firestore,
-      uid: startupId, // doc id == ownerUid
+      uid: startupId, 
       title: approve ? 'Startup verified' : 'Startup not approved',
       body: approve
           ? 'Your startup is verified — you can now post opportunities.'
@@ -80,8 +73,7 @@ class StartupRepository {
     await batch.commit();
   }
 
-  /// Edits to a startup's descriptive fields don't reset verification —
-  /// only the initial admin decision matters for posting access.
+  // edit start-up profile
   Future<void> updateProfile({
     required String startupId,
     required String name,

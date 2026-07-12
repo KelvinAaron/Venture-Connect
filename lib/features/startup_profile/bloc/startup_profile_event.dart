@@ -14,7 +14,7 @@ class StartupProfileSubscriptionRequested extends StartupProfileEvent {
   List<Object?> get props => [ownerUid];
 }
 
-/// Internal event fired whenever the Firestore stream emits.
+// Internal event fired whenever the Firestore stream emits.
 class StartupProfileUpdated extends StartupProfileEvent {
   final Startup? startup;
   const StartupProfileUpdated(this.startup);

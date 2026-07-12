@@ -28,11 +28,6 @@ class MyOpportunitiesBloc extends Bloc<MyOpportunitiesEvent, MyOpportunitiesStat
   }
 
   void _onUpdated(MyOpportunitiesUpdated event, Emitter<MyOpportunitiesState> emit) {
-    // Don't carry processingIds forward: a fresh snapshot means whatever we
-    // were waiting on has already resolved (that's what triggered this
-    // update), so clearing it here is what actually turns the spinner off.
-    // Carrying it forward, as this used to do, left the spinner stuck
-    // forever once an item entered processingIds.
     emit(MyOpportunitiesLoaded(opportunities: event.opportunities));
   }
 

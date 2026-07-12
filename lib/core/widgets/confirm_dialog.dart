@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 
-/// Shows a yes/no confirmation dialog and returns true only if the user
-/// tapped the confirm action. Await this before any hard-to-reverse action
-/// (logout, delete) rather than firing it immediately on tap.
+
+// Yes or no confirm dialog
 Future<bool> showConfirmDialog(
   BuildContext context, {
   required String title,

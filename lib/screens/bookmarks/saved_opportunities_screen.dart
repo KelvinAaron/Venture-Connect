@@ -14,7 +14,6 @@ import '../../features/opportunities/models/opportunity.dart';
 import '../opportunities/opportunity_detail_screen.dart';
 import 'bookmark_button.dart';
 
-/// Body-only widget embedded by StudentHomeScreen's "Saved" tab.
 class SavedOpportunitiesView extends StatelessWidget {
   final String studentUid;
   const SavedOpportunitiesView({super.key, required this.studentUid});

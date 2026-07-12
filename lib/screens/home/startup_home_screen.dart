@@ -5,8 +5,7 @@ import '../opportunities/my_opportunities_screen.dart';
 import '../opportunities/post_opportunity_screen.dart';
 import '../profile/startup_profile_screen.dart';
 
-/// Rendered by StartupGate once the signed-in startup's profile is
-/// verified. Two tabs — postings and profile — mounted via IndexedStack.
+// homescreen for startups
 class StartupHomeScreen extends StatefulWidget {
   final Startup startup;
   const StartupHomeScreen({super.key, required this.startup});

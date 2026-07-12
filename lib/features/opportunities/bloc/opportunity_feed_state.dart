@@ -3,10 +3,6 @@ import '../models/opportunity.dart';
 
 enum OpportunityFeedStatus { loading, loaded, error }
 
-/// Single state class (rather than a sealed hierarchy): the feed always
-/// needs to remember the search/category filters even while loading or
-/// erroring, and computing the filtered list as a getter here keeps that
-/// logic in one place instead of re-deriving it in the widget.
 class OpportunityFeedState extends Equatable {
   final OpportunityFeedStatus status;
   final List<Opportunity> all;

@@ -11,7 +11,7 @@ class StartupProfileLoading extends StartupProfileState {
   const StartupProfileLoading();
 }
 
-/// No startups/{uid} doc exists yet -> show the creation form.
+// No startups/{uid} doc exists yet -> show the creation form.
 class StartupProfileNotCreated extends StartupProfileState {
   final bool isSubmitting;
   final String? error;

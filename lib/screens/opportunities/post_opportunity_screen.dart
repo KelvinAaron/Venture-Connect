@@ -13,8 +13,6 @@ import '../../features/opportunities/data/opportunity_repository.dart';
 import '../../features/opportunities/models/opportunity.dart';
 import '../../features/startup_profile/models/startup.dart';
 
-/// Handles both creating a new posting and editing an existing one — pass
-/// [existing] to edit.
 class PostOpportunityScreen extends StatelessWidget {
   final Startup startup;
   final Opportunity? existing;
@@ -92,11 +90,6 @@ class _PostOpportunityFormState extends State<_PostOpportunityForm> {
       _questionControllers.add(TextEditingController());
       _questionFocusNodes.add(focusNode);
     });
-    // Requesting focus after the new field has actually been laid out makes
-    // Flutter's built-in "scroll the focused field into view" behavior
-    // bring it above the keyboard — otherwise, with enough questions
-    // already added, a newly appended field can land below the visible
-    // viewport with nothing to prompt a scroll to it.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) focusNode.requestFocus();
     });
