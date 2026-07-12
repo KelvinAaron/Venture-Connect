@@ -39,9 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     final isGoogleUser = firebaseUser.providerData.any((p) => p.providerId == 'google.com');
     if (isGoogleUser) {
-      // First-time Google sign-in: no Firestore doc yet since Google skips
-      // our signup form's role picker. Route to role selection instead of
-      // treating this the same as a broken/orphaned account.
+      // after signing up with gooogle route to role selection.
       emit(AuthNeedsRoleSelection(
         uid: firebaseUser.uid,
         name: firebaseUser.displayName ?? '',
@@ -85,7 +83,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     try {
       await _authRepository.signInWithGoogle();
-      // success -> authStateChanges listener drives the rest
     } on GoogleSignInException catch (e) {
       if (e.code != GoogleSignInExceptionCode.canceled) {
         emit(AuthFailure(e.description ?? 'Google sign-in failed.'));

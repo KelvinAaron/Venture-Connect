@@ -16,7 +16,6 @@ Future<void> main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // Must be called exactly once, before any other GoogleSignIn.instance call.
   await GoogleSignIn.instance.initialize(serverClientId: googleServerClientId);
   runApp(const VentureConnectApp());
 }
